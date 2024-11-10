@@ -12,9 +12,11 @@ namespace SingleResponsibilityPrinciple
             this.tradeStorage = tradeStorage;
         }
 
-        public void ProcessTrades()
+        // Make ProcessTrades async because GetTradeData is now async
+        public async Task ProcessTrades()
         {
-            var lines = tradeDataProvider.GetTradeData();
+            // Await the asynchronous GetTradeData call
+            var lines = await tradeDataProvider.GetTradeData();  // Now awaited
             var trades = tradeParser.Parse(lines);
             tradeStorage.Persist(trades);
         }
@@ -24,3 +26,4 @@ namespace SingleResponsibilityPrinciple
         private readonly ITradeStorage tradeStorage;
     }
 }
+

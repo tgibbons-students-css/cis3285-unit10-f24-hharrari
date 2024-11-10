@@ -20,6 +20,7 @@ namespace SingleResponsibilityPrinciple
             this.logger = logger;
         }
 
+        // Make sure this method is asynchronous and returns a Task<List<string>>
         async Task<List<string>> GetTradeAsync()
         {
             logger.LogInfo("Connecting to the Restful server using HTTP");
@@ -36,13 +37,12 @@ namespace SingleResponsibilityPrinciple
             return tradesString;
         }
 
-        public IEnumerable<string> GetTradeData()
+        // This method is now asynchronous and returns Task<IEnumerable<string>> 
+        public async Task<IEnumerable<string>> GetTradeData()
         {
-            Task<List<string>> task = Task.Run(() => GetTradeAsync());
-            task.Wait();
-
-            List<string> tradeList = task.Result;
-            return tradeList;
+            List<string> tradeList = await GetTradeAsync();
+            return tradeList ?? Enumerable.Empty<string>(); // Return empty if tradeList is null
         }
     }
 }
+

@@ -18,7 +18,7 @@ namespace SingleResponsibilityPrinciple
         }
         public IEnumerable<string> GetTradeData()
         {
-            // calling the or
+            // calling the original one
             IEnumerable<string> lines = origProvider.GetTradeData();
 
             List<String> result = new List<string>();
